@@ -144,14 +144,14 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
         # ✅ Gemini Flow
         else:
 
-        response = model.generate_content(
-            model="gemini-2.5-flash",
-            contents=prompt,
-            config=types.GenerateContentConfig(
-                response_mime_type="text/plain",
-                temperature=0.2
+            response = model.generate_content(
+                model="gemini-2.5-flash",
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    response_mime_type="text/plain",
+                    temperature=0.2
+                )
             )
-        )
         
         # Handle different response conditions
         if not response:
@@ -267,7 +267,7 @@ def generate_cover_letter(resume_text, job_description):
 
         else:
 
-        response = model.generate_content(model="gemini-2.5-flash", contents=prompt)
+            response = model.generate_content(model="gemini-2.5-flash", contents=prompt)
         if not response or not response.text:
             raise Exception("AI response was empty")
 
@@ -447,7 +447,7 @@ def generate_interview_qa(resume_text, job_description):
 
         else:
 
-        response = model.generate_content(model="gemini-2.5-flash", contents=prompt)
+            response = model.generate_content(model="gemini-2.5-flash", contents=prompt)
         if not response or not response.text:
             raise Exception("AI response was empty")
 
