@@ -123,6 +123,59 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
     {job_description}
     """
 
+    prompt_2 = f"""
+    You are an expert ATS resume writer.
+
+    GOAL:
+    Rewrite the candidate's resume to achieve {target_match}% ATS match with the job description. Maintain authenticity, highlight JD keywords, and ensure compliance with ATS standards.
+
+    CRITICAL RULES:
+    ✔ Include NAME and contact details at the top, centered.
+    ✔ Keep all companies and job titles from the original resume.
+    ✔ Add measurable outcomes (%, $, numbers) in at least 50% of bullet points.
+    ✔ Each bullet point must:
+        - Be 10–14 words
+        - Include 1–2 JD keywords
+        - End with a full stop
+    ✔ Do NOT invent companies, but you can enhance responsibilities.
+    ✔ Keep the final resume within 2 A4 pages.
+
+    OUTPUT FORMAT (DO NOT OMIT):
+    NAME
+    Phone | Email | Address
+
+    PROFESSIONAL SUMMARY:
+    100-word summary starting with “Applying for [exact job title]”.
+
+    KEY SKILLS:
+    List 45 ATS keywords (from JD), comma-separated.
+
+    WORK EXPERIENCE:
+    Company | Role | Dates
+    • Bullet 1
+    • Bullet 2
+    ...
+
+    EDUCATION:
+    Degree | Institution | Year
+
+    PROJECTS:
+    (if provided)
+
+    CERTIFICATIONS:
+    (if any)
+
+    INPUT:
+    Resume:
+    {resume_text}
+
+    Job Description:
+    {job_description}
+
+    Return ONLY the formatted resume, nothing else.
+
+    """
+
     
     try:
         # ✅ OpenAI Flow
@@ -131,7 +184,7 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
                 model="gpt-4o",
                 messages=[
                     {"role": "system", "content": "You are a professional resume writer."},
-                    {"role": "user", "content": prompt}
+                    {"role": "user", "content": prompt_2}
                 ],
                 temperature=0.2
             )
