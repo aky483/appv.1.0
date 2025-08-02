@@ -128,7 +128,7 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
         # ✅ OpenAI Flow
         if st_session.get("ai_model") == "openai":
             response = openai.chat.completions.create(
-                model="gpt-4o-mini",
+                model="gpt-4o",
                 messages=[
                     {"role": "system", "content": "You are a professional resume writer."},
                     {"role": "user", "content": prompt}
@@ -256,7 +256,7 @@ def generate_cover_letter(resume_text, job_description):
     try:
         if st_session.get("ai_model") == "openai":
             response = openai.chat.completions.create(
-                model="gpt-4o-mini",
+                model="gpt-4o",
                 messages=[
                     {"role": "system", "content": "You are a professional cover letter writer."},
                     {"role": "user", "content": prompt}
@@ -438,7 +438,7 @@ def generate_interview_qa(resume_text, job_description):
     try:
         if st_session.get("ai_model") == "openai":
             response = openai.chat.completions.create(
-                model="gpt-4o-mini",
+                model="gpt-4o",
                 messages=[
                     {"role": "system", "content": "You are an expert career coach and interviewer."},
                     {"role": "user", "content": prompt}
