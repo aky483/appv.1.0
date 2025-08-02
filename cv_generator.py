@@ -145,12 +145,11 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
         else:
 
             response = model.generate_content(
-                model="gemini-2.5-flash",
-                contents=prompt,
-                config=types.GenerateContentConfig(
-                    response_mime_type="text/plain",
-                    temperature=0.2
-                )
+            prompt,
+            generation_config={
+                "temperature": 0.2,
+                "response_mime_type": "text/plain"
+            }
             )
         
         # Handle different response conditions
