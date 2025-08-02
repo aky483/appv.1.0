@@ -14,14 +14,9 @@ from streamlit import session_state as st_session
 
 client_openai = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-load_dotenv()
-
 # Initialize Gemini client
-try:
-    client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-except Exception as e:
-    print(f"Error initializing Gemini client: {e}")
-    client = None
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+model = genai.GenerativeModel("gemini-2.5-flash")
 
 class CVOptimization(BaseModel):
     """CV optimization response model"""
