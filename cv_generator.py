@@ -9,10 +9,11 @@ from google.generativeai import types
 from pydantic import BaseModel
 from utils import optimize_keywords, enforce_page_limit
 from dotenv import load_dotenv
-from openai import OpenAI
 from streamlit import session_state as st_session
+import openai
 
-client_openai = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
 
 # Initialize Gemini client
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
@@ -126,7 +127,7 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
     try:
         # ✅ OpenAI Flow
         if st_session.get("ai_model") == "openai":
-            response = client_openai.chat.completions.create(
+            response = openai.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[
                     {"role": "system", "content": "You are a professional resume writer."},
@@ -254,7 +255,7 @@ def generate_cover_letter(resume_text, job_description):
 
     try:
         if st_session.get("ai_model") == "openai":
-            response = client_openai.chat.completions.create(
+            response = openai.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[
                     {"role": "system", "content": "You are a professional cover letter writer."},
@@ -436,7 +437,7 @@ def generate_interview_qa(resume_text, job_description):
     """
     try:
         if st_session.get("ai_model") == "openai":
-            response = client_openai.chat.completions.create(
+            response = openai.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[
                     {"role": "system", "content": "You are an expert career coach and interviewer."},
