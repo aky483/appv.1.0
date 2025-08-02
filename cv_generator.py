@@ -142,10 +142,9 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
             return optimized_cv.strip()
 
         # ✅ Gemini Flow
-        if not client:
-            raise Exception("Gemini AI client not initialized")
+        else:
 
-        response = client.models.generate_content(
+        response = model.generate_content(
             model="gemini-2.5-flash",
             contents=prompt,
             config=types.GenerateContentConfig(
@@ -266,10 +265,9 @@ def generate_cover_letter(resume_text, job_description):
             cover_letter = response.choices[0].message.content
             return re.sub(r'\*{1,2}', '', cover_letter).strip()
 
-        if not client:
-            raise Exception("Gemini AI client not initialized")
+        else:
 
-        response = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
+        response = model.generate_content(model="gemini-2.5-flash", contents=prompt)
         if not response or not response.text:
             raise Exception("AI response was empty")
 
@@ -447,10 +445,9 @@ def generate_interview_qa(resume_text, job_description):
             )
             return response.choices[0].message.content
 
-        if not client:
-            raise Exception("Gemini AI client not initialized")
+        else:
 
-        response = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
+        response = model.generate_content(model="gemini-2.5-flash", contents=prompt)
         if not response or not response.text:
             raise Exception("AI response was empty")
 
