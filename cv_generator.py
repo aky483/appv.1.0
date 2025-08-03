@@ -154,15 +154,15 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
     ✔ Date format: MM/YYYY consistently throughout
     ✔ Contact format: Phone | Email | City, State (optional ZIP)
     ✔ Use consistent capitalization for section headers
-    ✔ Each bullet point: 10-16 words (flexibility for complex achievements)
+    ✔ Each bullet point: 10-14 words (flexibility for complex achievements)
     ✔ End every bullet point with a period
     ✔ Use reverse chronological order for experience
 
     CONTENT ENHANCEMENT REQUIREMENTS:
     ✔ Generate exactly 22 bullet points total across ALL work experience roles:
     - Distribute bullets proportionally based on role relevance to target position
-    - Most recent/relevant role: 6 bullets
-    - Second most recent/relevant: 5 bullets  
+    - Most recent/relevant role: 5 bullets
+    - Second most recent/relevant: 4 bullets  
     - Remaining roles: 3, 2 or 1 bullets each in decreasing order
     - Adjust distribution based on number of roles but maintain 22 total
     ✔ Add quantifiable metrics to 60% of bullet points minimum (approximately 13-14 bullets):
