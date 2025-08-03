@@ -127,18 +127,21 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
     You are an expert ATS resume writer with deep knowledge of applicant tracking systems and recruitment best practices.
 
     GOAL:
-    Rewrite the candidate's resume to achieve {target_match if 'target_match' in locals() else '90'}% ATS match with the job description while maintaining authenticity, professional quality, and ATS compliance. Make sure roles should not be more than 22.
+    Rewrite the candidate's resume to achieve {target_match if 'target_match' in locals() else '90'}% ATS match with the job description while maintaining authenticity, professional quality, and ATS compliance.
 
     INPUT VALIDATION:
     - If resume_text is missing key sections (contact, experience), note what's missing and proceed with available information
     - If job_description is incomplete or too brief, focus on industry-standard keywords for the role
+    - If target_match is undefined, default to 85% match rate
 
     CRITICAL ATS TECHNICAL REQUIREMENTS:
-    ✔ Use standard fonts only: Calibri (11-12pt)
+    ✔ Use standard fonts only: Arial, Calibri, or Times New Roman (11-12pt)
     ✔ Set margins: 0.5-1 inch on all sides
     ✔ Use single line spacing with 6pt spacing after paragraphs
     ✔ Avoid: Tables, text boxes, graphics, images, headers/footers, columns
     ✔ Use standard bullet points (•) consistently
+    ✔ Save as .docx format (mention this in final note)
+    ✔ Keep file size under 1MB
 
     CONTENT AUTHENTICITY RULES:
     ✔ Include NAME and contact details at the top, centered
@@ -154,16 +157,12 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
     ✔ Date format: MM/YYYY consistently throughout
     ✔ Contact format: Phone | Email | City, State (optional ZIP)
     ✔ Use consistent capitalization for section headers
-    ✔ Each bullet point: 10-14 words (flexibility for complex achievements)
+    ✔ Each bullet point: 10-16 words (flexibility for complex achievements)
     ✔ End every bullet point with a period
     ✔ Use reverse chronological order for experience
 
     CONTENT ENHANCEMENT REQUIREMENTS:
     ✔ Generate exactly 22 bullet points total across ALL work experience roles:
-    - Distribute bullets proportionally based on role relevance to target position
-    - Most recent/relevant role: 5 bullets
-    - Second most recent/relevant: 4 bullets  
-    - Remaining roles: 3, 2 or 1 bullets each in decreasing order
     - Adjust distribution based on number of roles but maintain 22 total
     ✔ Add quantifiable metrics to 60% of bullet points minimum (approximately 13-14 bullets):
     - Percentages (increased efficiency by 25%)
@@ -176,7 +175,10 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
     ✔ Balance hard skills (70%) and soft skills (30%) in keyword integration
 
     PAGE LENGTH MANAGEMENT:
-    ✔ Target: 2 pages maximum
+    ✔ Target: 1-2 pages maximum
+    ✔ For 0-5 years experience: Aim for 1 page
+    ✔ For 5+ years experience: Up to 2 pages acceptable
+    ✔ For 15+ years experience: Focus on last 10-15 years, summarize earlier roles
 
     QUALITY CONTROLS:
     ✔ Ensure professional tone throughout
@@ -196,16 +198,18 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
     BULLET POINT DISTRIBUTION STRATEGY:
     ✔ Total bullet points required: EXACTLY 22 across ALL work experience roles
     ✔ CRITICAL: Include every single work experience from the original resume
-    ✔ Distribution guidelines based on total number of roles in original resume:
-    - 1 role: All 22 bullets for that role
-    - 2 roles: 11 bullets each
-    - 3 roles: 8 + 7 + 7 bullets (most recent/relevant gets 8)
-    - 4 roles: 6 + 6 + 5 + 5 bullets (prioritize by relevance/recency)
-    - 5 roles: 5 + 5 + 4 + 4 + 4 bullets
-    - 6 roles: 4 + 4 + 4 + 3 + 3 + 4 bullets
-    - 7+ roles: Distribute as 4-3-3-3-3-3-3 pattern, adjust as needed
-    ✔ Prioritize bullet allocation: Most recent and JD-relevant roles get more bullets
-    ✔ Every role must have minimum 3 bullets, maximum 8 bullets
+    ✔ MANDATORY DISTRIBUTION FORMULA - Follow this EXACT pattern:
+    - 1 role: 22 bullets
+    - 2 roles: 11 + 11 bullets
+    - 3 roles: 8 + 7 + 7 bullets
+    - 4 roles: 7 + 6 + 5 + 4 bullets
+    - 5 roles: 6 + 5 + 4 + 4 + 3 bullets
+    - 6 roles: 5 + 4 + 4 + 3 + 3 + 3 bullets
+    - 7 roles: 5 + 4 + 3 + 3 + 3 + 2 + 2 bullets
+    - 8 roles: 5 + 4 + 3 + 3 + 2 + 2 + 2 + 1 bullets
+    - 9 roles: 5 + 4 + 3 + 3 + 2 + 2 + 1 + 1 + 1 bullets
+    - 10+ roles: 5 + 4 + 3 + 2 + 2 + 1 + 1 + 1 + 1 + 1 + (remaining 1s) bullets
+    ✔ Never exceed 22 total bullets regardless of number of roles
     ✔ Never omit or combine roles - each original position gets its own section
 
     EDGE CASE HANDLING:
@@ -214,14 +218,14 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
     - Employment gaps: Do not fabricate - focus on remaining experience
     - Limited quantifiable achievements: Use industry benchmarks and reasonable estimates
     - NEVER omit, combine, or merge work experiences from original resume
-    - If candidate has 7+ roles, still include all but distribute bullets strategically (3 per role)
-    - For very brief roles (under 6 months), still include with minimum 3 bullets
+    - If candidate has 7+ roles, still include all but distribute bullets strategically
     - Maintain complete work history integrity while optimizing for ATS
 
     OUTPUT FORMAT (STRICT - DO NOT OMIT ANY SECTION):
 
     [CANDIDATE NAME]
     Phone | Email | City, State
+    LinkedIn Profile URL (if provided)
 
     PROFESSIONAL SUMMARY:
     [100-120 word summary starting with "Accomplished [job title/field] professional applying for [exact job title from JD]..." Include 3-4 key JD keywords naturally.]
@@ -255,7 +259,7 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
     CERTIFICATIONS: (if any)
     [Certification Name] | [Issuing Organization] | [Year/Expiration]
 
-    
+
     ERROR HANDLING:
     - If resume sections are missing, create reasonable structure with available information
     - If job description lacks detail, use industry-standard keywords for the role type
@@ -263,13 +267,15 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
 
     POST-PROCESSING CHECKLIST:
     □ All original company names and job titles preserved
+    □ EVERY work experience from original resume included - none omitted
     □ Contact information complete and properly formatted
-    □ EXACTLY 22 bullet points in work experience section
+    □ EXACTLY 22 bullet points distributed according to mandatory formula
+    □ Bullet distribution matches exact pattern for number of roles (e.g., 4 roles = 7+6+5+4)
     □ Keywords naturally integrated, not stuffed
     □ Quantified achievements in 60%+ of bullets (13-14 out of 22)
     □ Professional tone maintained throughout
     □ Spelling and grammar checked
-    □ Page count within limits
+    □ Page count within limits (may extend to 2 pages if many roles)
     □ ATS-friendly formatting applied
     □ File should be saved as .docx format
 
