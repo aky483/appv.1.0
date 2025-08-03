@@ -382,7 +382,7 @@ def analyze_cv_ats_score(cv_content, job_description):
             prompt,
             generation_config={
                 "temperature": 0.2,
-                "response_mime_type": "text/plain"
+                "response_mime_type": "application/json"
             }
             )
 
