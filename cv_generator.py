@@ -214,7 +214,7 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
     - Employment gaps: Do not fabricate - focus on remaining experience
     - Limited quantifiable achievements: Use industry benchmarks and reasonable estimates
     - NEVER omit, combine, or merge work experiences from original resume
-    - If candidate has 7+ roles, still include all but distribute bullets strategically (3-4 per role)
+    - If candidate has 7+ roles, still include all but distribute bullets strategically (3 per role)
     - For very brief roles (under 6 months), still include with minimum 3 bullets
     - Maintain complete work history integrity while optimizing for ATS
 
