@@ -163,7 +163,7 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
     - Distribute bullets proportionally based on role relevance to target position
     - Most recent/relevant role: 6 bullets
     - Second most recent/relevant: 5 bullets  
-    - Remaining roles: 3-4 bullets each
+    - Remaining roles: 3, 2 or 1 bullets each in decreasing order
     - Adjust distribution based on number of roles but maintain 22 total
     ✔ Add quantifiable metrics to 60% of bullet points minimum (approximately 13-14 bullets):
     - Percentages (increased efficiency by 25%)
