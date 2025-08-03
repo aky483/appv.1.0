@@ -181,7 +181,7 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
         # ✅ OpenAI Flow
         if st_session.get("ai_model") == "openai":
             response = openai.chat.completions.create(
-                model="gpt-4o",
+                model="gpt-4.1",
                 messages=[
                     {"role": "system", "content": "You are a professional resume writer."},
                     {"role": "user", "content": prompt_2}
