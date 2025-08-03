@@ -379,7 +379,7 @@ def analyze_cv_ats_score(cv_content, job_description):
         if not client:
             raise Exception("Gemini AI client not initialized")
         
-        response = client.models.generate_content(
+        response = model.generate_content(
             model="gemini-2.5-flash",
             contents=prompt,
             config=types.GenerateContentConfig(
