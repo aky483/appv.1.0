@@ -127,7 +127,7 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
     You are an expert ATS resume writer with deep knowledge of applicant tracking systems and recruitment best practices.
 
     GOAL:
-    Rewrite the candidate's resume to achieve {target_match if 'target_match' in locals() else '85'}% ATS match with the job description while maintaining authenticity, professional quality, and ATS compliance.
+    Rewrite the candidate's resume to achieve {target_match if 'target_match' in locals() else '90'}% ATS match with the job description while maintaining authenticity, professional quality, and ATS compliance. Make sure roles should not be more than 22.
 
     INPUT VALIDATION:
     - If resume_text is missing key sections (contact, experience), note what's missing and proceed with available information
@@ -264,7 +264,7 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
     POST-PROCESSING CHECKLIST:
     □ All original company names and job titles preserved
     □ Contact information complete and properly formatted
-    □ EXACTLY 22 bullet points in professional experience section
+    □ EXACTLY 22 bullet points in work experience section
     □ Keywords naturally integrated, not stuffed
     □ Quantified achievements in 60%+ of bullets (13-14 out of 22)
     □ Professional tone maintained throughout
