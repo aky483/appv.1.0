@@ -379,12 +379,12 @@ def analyze_cv_ats_score(cv_content, job_description):
         
         
         response = model.generate_content(
-            model="gemini-2.5-flash",
-            contents=prompt,
-            config=types.GenerateContentConfig(
-                response_mime_type="application/json"
+            prompt,
+            generation_config={
+                "temperature": 0.2,
+                "response_mime_type": "text/plain"
+            }
             )
-        )
 
         if not response or not response.text:
             raise Exception("AI response was empty or None")
