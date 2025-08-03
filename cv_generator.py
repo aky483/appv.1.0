@@ -124,56 +124,165 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
     """
 
     prompt_2 = f"""
-    You are an expert ATS resume writer.
+    You are an expert ATS resume writer with deep knowledge of applicant tracking systems and recruitment best practices.
 
     GOAL:
-    Rewrite the candidate's resume to achieve {target_match}% ATS match with the job description. Maintain authenticity, highlight JD keywords, and ensure compliance with ATS standards.
+    Rewrite the candidate's resume to achieve {target_match if 'target_match' in locals() else '85'}% ATS match with the job description while maintaining authenticity, professional quality, and ATS compliance.
 
-    CRITICAL RULES:
-    ✔ Include NAME and contact details at the top, centered.
-    ✔ Keep all companies and job titles from the original resume.
-    ✔ Add measurable outcomes (%, $, numbers) in at least 50% of bullet points.
-    ✔ Each bullet point must:
-        - Be 10–14 words
-        - Include 1–2 JD keywords
-        - End with a full stop
-    ✔ Do NOT invent companies, but you can enhance responsibilities.
-    ✔ Keep the final resume within 2 A4 pages.
+    INPUT VALIDATION:
+    - If resume_text is missing key sections (contact, experience), note what's missing and proceed with available information
+    - If job_description is incomplete or too brief, focus on industry-standard keywords for the role
 
-    OUTPUT FORMAT (DO NOT OMIT):
-    NAME
-    Phone | Email | Address
+    CRITICAL ATS TECHNICAL REQUIREMENTS:
+    ✔ Use standard fonts only: Calibri (11-12pt)
+    ✔ Set margins: 0.5-1 inch on all sides
+    ✔ Use single line spacing with 6pt spacing after paragraphs
+    ✔ Avoid: Tables, text boxes, graphics, images, headers/footers, columns
+    ✔ Use standard bullet points (•) consistently
+
+    CONTENT AUTHENTICITY RULES:
+    ✔ Include NAME and contact details at the top, centered
+    ✔ Keep ALL companies, job titles, and dates from original resume unchanged
+    ✔ Keep educational institutions and degrees exactly as provided
+    ✔ Include EVERY work experience from the original resume - do not omit any roles
+    ✔ Maintain chronological order of all positions (reverse chronological)
+    ✔ Do NOT invent companies, roles, or qualifications
+    ✔ Enhance responsibilities and achievements within existing roles only
+    ✔ If employment gaps exist, do not fill them - maintain chronological accuracy
+
+    FORMATTING STANDARDS:
+    ✔ Date format: MM/YYYY consistently throughout
+    ✔ Contact format: Phone | Email | City, State (optional ZIP)
+    ✔ Use consistent capitalization for section headers
+    ✔ Each bullet point: 10-16 words (flexibility for complex achievements)
+    ✔ End every bullet point with a period
+    ✔ Use reverse chronological order for experience
+
+    CONTENT ENHANCEMENT REQUIREMENTS:
+    ✔ Generate exactly 22 bullet points total across ALL work experience roles:
+    - Distribute bullets proportionally based on role relevance to target position
+    - Most recent/relevant role: 6 bullets
+    - Second most recent/relevant: 5 bullets  
+    - Remaining roles: 3-4 bullets each
+    - Adjust distribution based on number of roles but maintain 22 total
+    ✔ Add quantifiable metrics to 60% of bullet points minimum (approximately 13-14 bullets):
+    - Percentages (increased efficiency by 25%)
+    - Dollar amounts ($2M budget managed)
+    - Numbers (managed team of 12)
+    - Timeframes (reduced processing time by 3 days)
+    ✔ If original achievements lack numbers, create realistic estimates based on role level and industry standards
+    ✔ Each bullet point must include 1-2 relevant JD keywords naturally integrated
+    ✔ Prioritize exact keyword matches over synonyms
+    ✔ Balance hard skills (70%) and soft skills (30%) in keyword integration
+
+    PAGE LENGTH MANAGEMENT:
+    ✔ Target: 2 pages maximum
+
+    QUALITY CONTROLS:
+    ✔ Ensure professional tone throughout
+    ✔ Avoid keyword stuffing (max 2-3 keywords per bullet)
+    ✔ Verify all company names and job titles remain unchanged
+    ✔ Check for spelling and grammar errors
+    ✔ Ensure logical flow and readability
+    ✔ Maintain consistency in tense (past tense for previous roles, present for current)
+
+    KEYWORD STRATEGY:
+    ✔ Extract 45-50 most relevant keywords from job description
+    ✔ Prioritize: Technical skills, software, certifications, industry terms
+    ✔ Include variations where natural (e.g., "manage" and "management")
+    ✔ Distribute keywords across all sections, not just skills
+    ✔ Ensure keywords appear in context, not as isolated lists
+
+    BULLET POINT DISTRIBUTION STRATEGY:
+    ✔ Total bullet points required: EXACTLY 22 across ALL work experience roles
+    ✔ CRITICAL: Include every single work experience from the original resume
+    ✔ Distribution guidelines based on total number of roles in original resume:
+    - 1 role: All 22 bullets for that role
+    - 2 roles: 11 bullets each
+    - 3 roles: 8 + 7 + 7 bullets (most recent/relevant gets 8)
+    - 4 roles: 6 + 6 + 5 + 5 bullets (prioritize by relevance/recency)
+    - 5 roles: 5 + 5 + 4 + 4 + 4 bullets
+    - 6 roles: 4 + 4 + 4 + 3 + 3 + 4 bullets
+    - 7+ roles: Distribute as 4-3-3-3-3-3-3 pattern, adjust as needed
+    ✔ Prioritize bullet allocation: Most recent and JD-relevant roles get more bullets
+    ✔ Every role must have minimum 3 bullets, maximum 8 bullets
+    ✔ Never omit or combine roles - each original position gets its own section
+
+    EDGE CASE HANDLING:
+    - Entry-level candidates: Focus on education, projects, internships, relevant coursework
+    - Career changers: Emphasize transferable skills and relevant projects
+    - Employment gaps: Do not fabricate - focus on remaining experience
+    - Limited quantifiable achievements: Use industry benchmarks and reasonable estimates
+    - NEVER omit, combine, or merge work experiences from original resume
+    - If candidate has 7+ roles, still include all but distribute bullets strategically (3-4 per role)
+    - For very brief roles (under 6 months), still include with minimum 3 bullets
+    - Maintain complete work history integrity while optimizing for ATS
+
+    OUTPUT FORMAT (STRICT - DO NOT OMIT ANY SECTION):
+
+    [CANDIDATE NAME]
+    Phone | Email | City, State
 
     PROFESSIONAL SUMMARY:
-    100-word summary starting with “Applying for [exact job title]”.
+    [100-120 word summary starting with "Accomplished [job title/field] professional applying for [exact job title from JD]..." Include 3-4 key JD keywords naturally.]
 
     KEY SKILLS:
-    List 45 ATS keywords (from JD), comma-separated.
+    [List 45-50 ATS keywords from JD, comma-separated, prioritizing exact matches. Mix technical skills, software, methodologies, and relevant soft skills.]
 
     WORK EXPERIENCE:
-    Company | Role | Dates
-    • Bullet 1
-    • Bullet 2
-    ...
+    [Include ALL work experiences from original resume in reverse chronological order]
+
+    [Company Name] | [Job Title] | [MM/YYYY - MM/YYYY or Present]
+    • [Achievement with metric and 1-2 JD keywords].
+    • [Responsibility with quantified outcome and relevant keywords].
+    • [Impact statement with numbers and key terms from JD].
+    [Repeat format for EVERY role from original resume - distribute 22 total bullets across all positions]
+
+    [Company Name] | [Job Title] | [MM/YYYY - MM/YYYY]
+    • [Achievement with metric and 1-2 JD keywords].
+    • [Responsibility with quantified outcome and relevant keywords].
+    • [Impact statement with numbers and key terms from JD].
+    [Continue for each role - ensure no original work experience is omitted]
 
     EDUCATION:
-    Degree | Institution | Year
+    [Degree] | [Institution] | [Year]
+    [Additional certifications, relevant coursework, or academic achievements if space permits]
 
-    PROJECTS:
-    (if provided)
+    PROJECTS: (if applicable)
+    [Project Name] | [Technologies/Skills Used] | [MM/YYYY]
+    • [Brief description with outcomes and relevant keywords].
 
-    CERTIFICATIONS:
-    (if any)
+    CERTIFICATIONS: (if any)
+    [Certification Name] | [Issuing Organization] | [Year/Expiration]
 
-    INPUT:
-    Resume:
-    {resume_text}
+    
+    ERROR HANDLING:
+    - If resume sections are missing, create reasonable structure with available information
+    - If job description lacks detail, use industry-standard keywords for the role type
+    - If unable to reach target match percentage, aim for highest possible match while maintaining authenticity
+
+    POST-PROCESSING CHECKLIST:
+    □ All original company names and job titles preserved
+    □ Contact information complete and properly formatted
+    □ EXACTLY 22 bullet points in professional experience section
+    □ Keywords naturally integrated, not stuffed
+    □ Quantified achievements in 60%+ of bullets (13-14 out of 22)
+    □ Professional tone maintained throughout
+    □ Spelling and grammar checked
+    □ Page count within limits
+    □ ATS-friendly formatting applied
+    □ File should be saved as .docx format
+
+    INPUT DATA:
+    Resume Text:
+    {resume_text if 'resume_text' in locals() else '[RESUME TEXT MISSING - Please provide resume content]'}
 
     Job Description:
-    {job_description}
+    {job_description if 'job_description' in locals() else '[JOB DESCRIPTION MISSING - Please provide job posting details]'}
 
-    Return ONLY the formatted resume, nothing else.
+    Target Match Percentage: {target_match if 'target_match' in locals() else '85'}%
 
+    FINAL INSTRUCTION: Return ONLY the formatted resume following the exact structure above. Do not include explanations, meta-commentary, or additional text. End with: "NOTE: Save this resume as a .docx file for optimal ATS compatibility."
     """
 
     
