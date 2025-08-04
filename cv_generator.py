@@ -610,7 +610,7 @@ def generate_interview_qa(resume_text, job_description):
     FORMAT REQUIREMENTS:
     Structure each Q&A exactly as follows using STAR method for ALL questions:
     
-    [Behavioral Question]
+    BEHAVIOURAL QUESTION:
     Q:
     A:
     - **Situation:** [Context and background scenario]
@@ -621,7 +621,7 @@ def generate_interview_qa(resume_text, job_description):
     - **Result:** [Quantifiable outcome achieved]
     - **Result:** [Additional impact or learning gained]
     
-    [Technical Question]
+    TECHNICAL QUESTION:
     Q:
     A:
     - **Situation:** [Technical scenario or project context]
