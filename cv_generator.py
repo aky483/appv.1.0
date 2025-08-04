@@ -199,16 +199,16 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
     ✔ Total bullet points required: EXACTLY 22 across ALL work experience roles
     ✔ CRITICAL: Include every single work experience from the original resume
     ✔ MANDATORY DISTRIBUTION FORMULA - Follow this EXACT pattern:
-    - 1 role: 22 bullets
-    - 2 roles: 11 + 11 bullets
-    - 3 roles: 8 + 7 + 7 bullets
-    - 4 roles: 7 + 6 + 5 + 4 bullets
-    - 5 roles: 6 + 5 + 4 + 4 + 3 bullets
-    - 6 roles: 5 + 4 + 4 + 3 + 3 + 3 bullets
-    - 7 roles: 5 + 4 + 3 + 3 + 3 + 2 + 2 bullets
-    - 8 roles: 5 + 4 + 3 + 3 + 2 + 2 + 2 + 1 bullets
-    - 9 roles: 5 + 4 + 3 + 3 + 2 + 2 + 1 + 1 + 1 bullets
-    - 10+ roles: 5 + 4 + 3 + 2 + 2 + 1 + 1 + 1 + 1 + 1 + (remaining 1s) bullets
+    - 1 work experience: 22 bullets
+    - 2 work experience: 11 + 11 bullets
+    - 3 work experience: 8 + 7 + 7 bullets
+    - 4 work experience: 7 + 6 + 5 + 4 bullets
+    - 5 work experience: 6 + 5 + 4 + 4 + 3 bullets
+    - 6 work experience: 5 + 4 + 4 + 3 + 3 + 3 bullets
+    - 7 work experience: 5 + 4 + 3 + 3 + 3 + 2 + 2 bullets
+    - 8 work experience: 5 + 4 + 3 + 3 + 2 + 2 + 2 + 1 bullets
+    - 9 work experience: 5 + 4 + 3 + 3 + 2 + 2 + 1 + 1 + 1 bullets
+    - 10+ work experience: 5 + 4 + 3 + 2 + 2 + 1 + 1 + 1 + 1 + 1 + (remaining 1s) bullets
     ✔ Never exceed 22 total bullets regardless of number of roles
     ✔ Never omit or combine roles - each original position gets its own section
 
