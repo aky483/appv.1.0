@@ -193,6 +193,10 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
     CERTIFICATIONS:
     (if any)
 
+    <<<END>>>
+
+    DO NOT include any "---", "###", or other separators.
+
 
     ### **KEYWORD STRATEGY**
     ✔ Extract 45-50 JD keywords and spread naturally across summary, skills, and experience   
