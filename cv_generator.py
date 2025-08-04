@@ -619,7 +619,13 @@ def generate_interview_qa(resume_text, job_description):
 
         else:
 
-            response = model.generate_content(model="gemini-2.5-flash", contents=prompt)
+            response = model.generate_content(
+            contents=prompt,
+            generation_config={
+                "temperature": 0.2,
+                "response_mime_type": "text/plain"
+            }
+        )
         if not response or not response.text:
             raise Exception("AI response was empty")
 
