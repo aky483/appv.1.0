@@ -422,12 +422,12 @@ def generate_cover_letter(resume_text, job_description):
     try:
         if st_session.get("ai_model") == "openai":
             response = openai.chat.completions.create(
-                model="gpt-4o",
+                model="gpt-4.1",
                 messages=[
                     {"role": "system", "content": "You are a professional cover letter writer."},
                     {"role": "user", "content": prompt}
                 ],
-                temperature=0.3
+                temperature=0.2
             )
             cover_letter = response.choices[0].message.content
             return re.sub(r'\*{1,2}', '', cover_letter).strip()
@@ -500,7 +500,7 @@ def analyze_cv_ats_score(cv_content, job_description):
         if st_session.get("ai_model") == "openai":
             # ✅ GPT-based analysis
             response = openai.chat.completions.create(
-                model="gpt-4o",
+                model="gpt-4.1",
                 messages=[
                     {"role": "system", "content": "You are an ATS scoring and resume optimization expert."},
                     {"role": "user", "content": prompt}
