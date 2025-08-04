@@ -235,7 +235,7 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
         else:
 
             response = model.generate_content(
-            prompt,
+            prompt_2,
             generation_config={
                 "temperature": 0.2,
                 "response_mime_type": "text/plain"
