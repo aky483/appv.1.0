@@ -497,23 +497,34 @@ def analyze_cv_ats_score(cv_content, job_description):
     """
     
     try:
-        
-        
-        response = model.generate_content(
-            prompt,
-            generation_config={
-                "temperature": 0.2,
-                "response_mime_type": "application/json"
-            }
+        if st_session.get("ai_model") == "openai":
+            # ✅ GPT-based analysis
+            response = openai.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {"role": "system", "content": "You are an ATS scoring and resume optimization expert."},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.0  # Keep it deterministic for scoring
             )
+            raw_text = response.choices[0].message.content.strip()
 
-        if not response or not response.text:
-            raise Exception("AI response was empty or None")
-        
+        else:
+            # ✅ Gemini-based analysis
+            response = model.generate_content(
+                contents=prompt,
+                generation_config={
+                    "temperature": 0.0,
+                    "response_mime_type": "application/json"
+                }
+            )
+            raw_text = response.text.strip()
+
+        # ✅ Parse JSON
         try:
-            parsed = json.loads(response.text)
+            parsed = json.loads(raw_text)
         except Exception as parse_err:
-            raise Exception(f"Invalid JSON response from Gemini: {response.text}")
+            raise Exception(f"Invalid JSON response: {raw_text}")
 
         return {
             "score": parsed.get("ats_score", 0),
@@ -523,7 +534,6 @@ def analyze_cv_ats_score(cv_content, job_description):
         }
 
     except Exception as e:
-        # Final fallback if AI fails entirely
         return {
             "score": 0,
             "keyword_match": 0,
