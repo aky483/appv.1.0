@@ -577,41 +577,79 @@ def enhance_action_verbs(content, intensity="High"):
 def generate_interview_qa(resume_text, job_description):
     """Generate interview Q&A using Gemini AI"""
     prompt = f"""
-    You are an expert career coach and interviewer.
-
+    You are an expert career coach and interviewer specializing in the STAR method (Situation, Task, Action, Result).
+    
     TASK:
     Generate **exactly 20 interview questions and answers** for the candidate based on their resume and the job description.
-
-    ✅ Structure:
-    - 8 Behavioral questions (fitment, company, teamwork, problem-solving, adaptability)
-    - 12 Technical questions based on ATS keywords, JD tools, frameworks, and skills.
-
-    ✅ Format STRICTLY:
+    
+    STRUCTURE REQUIREMENTS:
+    ✅ 8 Behavioral Questions focusing on:
+       - Company culture fit and motivation
+       - Teamwork and collaboration scenarios  
+       - Problem-solving and conflict resolution
+       - Leadership and initiative examples
+       - Adaptability and learning experiences
+       - Communication and stakeholder management
+       - Time management and prioritization
+       - Achievement and goal-oriented situations
+    
+    ✅ 12 Technical Questions covering:
+       - Core technical skills from resume and JD
+       - Tools, frameworks, and technologies mentioned
+       - System design and architecture scenarios
+       - Problem-solving with specific technologies
+       - Best practices and methodology questions
+       - Advanced concepts relevant to the role
+       - Troubleshooting and debugging scenarios
+       - Performance optimization techniques
+       - Security and compliance considerations
+       - Industry-specific technical challenges
+       - Integration and deployment practices
+       - Code quality and testing approaches
+    
+    FORMAT REQUIREMENTS:
+    Structure each Q&A exactly as follows:
+    
     Q1: [Behavioral Question]
-    A1:
-    - Point 1
-    - Point 2
-    - Point 3
-    - Point 4
-    - Point 5
-    - Point 6
-
-    Q2: [Next Question]
+    A1: [STAR Method Response]
+    **Situation:** [Context and background - 1-2 sentences]
+    **Task:** [What needed to be accomplished - 1 sentence]  
+    **Action:** [Specific steps taken - 2-3 detailed points]
+    **Result:** [Quantifiable outcomes and impact - 1-2 sentences]
+    
+    Q2: [Technical Question]
     A2:
-    - ...
-
-    ✅ Rules:
-    - All answers MUST have **6 bullet points minimum**.
-    - No repetition of questions or answers.
-    - Technical questions should be advanced and role-specific.
-    - Cover JD-specific tools, methods, and problem scenarios.
-    - Include the most important ATS keywords in both questions and answers.
-
-    Resume:
+    - [Technical concept explanation]
+    - [Implementation approach or methodology]
+    - [Best practices or considerations]
+    - [Real-world application example]
+    - [Potential challenges and solutions]
+    - [Performance or optimization aspects]
+    
+    ANSWER QUALITY STANDARDS:
+    ✅ Each answer MUST have **minimum 6 substantial bullet points** or STAR components
+    ✅ Behavioral answers use STAR method with specific examples from candidate's background
+    ✅ Technical answers demonstrate deep knowledge with practical applications
+    ✅ Include quantifiable metrics and results where possible
+    ✅ Use ATS keywords naturally throughout answers
+    ✅ Answers should be 100-150 words each for comprehensive coverage
+    ✅ No repetition of questions, concepts, or examples
+    
+    CUSTOMIZATION REQUIREMENTS:
+    ✅ Align all questions with candidate's experience level and role requirements
+    ✅ Incorporate specific tools, technologies, and frameworks from JD
+    ✅ Reference actual projects, companies, or achievements from resume
+    ✅ Match technical complexity to seniority level
+    ✅ Include industry-specific scenarios and challenges
+    ✅ Cover both current skills and growth potential areas
+    
+    RESUME CONTENT:
     {resume_text}
-
-    Job Description:
+    
+    JOB DESCRIPTION:
     {job_description}
+    
+    Generate exactly 20 questions (Q1-Q20) with comprehensive answers following the above structure.
     """
     try:
         if st_session.get("ai_model") == "openai":
