@@ -608,32 +608,37 @@ def generate_interview_qa(resume_text, job_description):
        - Code quality and testing approaches
     
     FORMAT REQUIREMENTS:
-    Structure each Q&A exactly as follows:
+    Structure each Q&A exactly as follows using STAR method for ALL questions:
     
     Q1: [Behavioral Question]
-    A1: [STAR Method Response]
-    **Situation:** [Context and background - 1-2 sentences]
-    **Task:** [What needed to be accomplished - 1 sentence]  
-    **Action:** [Specific steps taken - 2-3 detailed points]
-    **Result:** [Quantifiable outcomes and impact - 1-2 sentences]
+    A1:
+    - **Situation:** [Context and background scenario]
+    - **Task:** [What needed to be accomplished or challenge faced]
+    - **Action:** [First specific step taken]
+    - **Action:** [Second specific step taken]
+    - **Action:** [Third specific step taken]
+    - **Result:** [Quantifiable outcome achieved]
+    - **Result:** [Additional impact or learning gained]
     
     Q2: [Technical Question]
     A2:
-    - [Technical concept explanation]
-    - [Implementation approach or methodology]
-    - [Best practices or considerations]
-    - [Real-world application example]
-    - [Potential challenges and solutions]
-    - [Performance or optimization aspects]
+    - **Situation:** [Technical scenario or project context]
+    - **Task:** [Technical challenge or requirement to address]
+    - **Action:** [Technical approach or solution implemented]
+    - **Action:** [Specific tools/technologies used]
+    - **Action:** [Implementation steps or methodology followed]
+    - **Result:** [Technical outcome or performance improvement]
+    - **Result:** [Business impact or lessons learned]
     
     ANSWER QUALITY STANDARDS:
-    ✅ Each answer MUST have **minimum 6 substantial bullet points** or STAR components
-    ✅ Behavioral answers use STAR method with specific examples from candidate's background
-    ✅ Technical answers demonstrate deep knowledge with practical applications
+    ✅ Each answer MUST have **exactly 7 points** following STAR method structure
+    ✅ ALL answers (behavioral AND technical) use STAR format consistently
+    ✅ STAR breakdown: 1 Situation + 1 Task + 3 Actions + 2 Results = 7 points
     ✅ Include quantifiable metrics and results where possible
     ✅ Use ATS keywords naturally throughout answers
-    ✅ Answers should be 100-150 words each for comprehensive coverage
+    ✅ Each point should be 15-25 words for optimal comprehension
     ✅ No repetition of questions, concepts, or examples
+    ✅ Draw specific examples from candidate's actual experience
     
     CUSTOMIZATION REQUIREMENTS:
     ✅ Align all questions with candidate's experience level and role requirements
