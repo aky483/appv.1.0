@@ -225,7 +225,6 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
 
     [CANDIDATE NAME]
     Phone | Email | City, State
-    LinkedIn Profile URL (if provided)
 
     PROFESSIONAL SUMMARY:
     [100-120 word summary starting with "Accomplished [job title/field] professional applying for [exact job title from JD]..." Include 3-4 key JD keywords naturally.]
@@ -277,7 +276,6 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
     □ Spelling and grammar checked
     □ Page count within limits (may extend to 2 pages if many roles)
     □ ATS-friendly formatting applied
-    □ File should be saved as .docx format
 
     INPUT DATA:
     Resume Text:
