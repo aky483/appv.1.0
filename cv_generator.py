@@ -166,7 +166,7 @@ def generate_cv(resume_text, job_description, target_match, template, sections, 
     All original companies included, reverse chronological.  
     **Do NOT invent new companies.**
 
-    **Bullet Distribution Rules:**  
+    **Bullet Distribution Rules:Each bullets 10-14 words**  
     **If 0-5 yrs experience:** 
         • **Total bullets = 20 max** 
         • First company: **7 bullets** (5 original + 2 fabricated from JD)  
