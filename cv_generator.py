@@ -606,21 +606,32 @@ def generate_interview_qa(resume_text, job_description):
         raise Exception(f"Failed to generate Q&A: {str(e)}")
 
 
+
+
 def export_interview_qa(content):
     """Export Q&A with bold section headings, bold questions, and STAR keywords, compatible with GPT & Gemini."""
     from io import BytesIO
-    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak
     from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
     from reportlab.lib.enums import TA_LEFT
     from reportlab.lib import colors
     from docx import Document
     from docx.shared import Pt
 
-    # PDF Styles
+    # ✅ PDF Styles (Streamlit-safe: use Helvetica)
     styles = getSampleStyleSheet()
-    heading_style = ParagraphStyle('HeadingStyle', fontSize=16, leading=20, textColor=colors.darkblue, spaceAfter=12, fontName='Calibri')
-    question_style = ParagraphStyle('QuestionStyle', fontSize=13, leading=15, spaceAfter=8, fontName='Calibri')
-    normal_style = ParagraphStyle('NormalStyle', fontSize=11, leading=14, spaceAfter=6)
+    heading_style = ParagraphStyle(
+        'HeadingStyle', fontSize=16, leading=20, textColor=colors.darkblue,
+        spaceAfter=14, fontName='Helvetica-Bold'
+    )
+    question_style = ParagraphStyle(
+        'QuestionStyle', fontSize=13, leading=15, spaceAfter=10,
+        fontName='Helvetica-Bold'
+    )
+    normal_style = ParagraphStyle(
+        'NormalStyle', fontSize=11, leading=14, spaceAfter=6,
+        fontName='Helvetica'
+    )
 
     pdf_buffer = BytesIO()
     doc = SimpleDocTemplate(pdf_buffer)
@@ -632,17 +643,19 @@ def export_interview_qa(content):
         if not line:
             continue
 
-        # ✅ Section Headings (GPT: ## ... | Gemini: **Behavioral Questions**)
+        # ✅ Section Headings (GPT or Gemini)
         if re.match(r"^(##|\*\*)\s*(Behavioral Questions|Technical Questions)", line, re.IGNORECASE):
             clean_line = re.sub(r"(##|\*\*)", "", line, flags=re.IGNORECASE).strip(": *")
+            if "Technical" in clean_line:
+                story.append(PageBreak())  # Page break before technical section
             story.append(Paragraph(clean_line, heading_style))
 
-        # ✅ Questions (### or **digit. question**)
+        # ✅ Questions
         elif line.startswith("###") or re.match(r"^\*\*\d+\.", line):
             clean_line = re.sub(r"(###|\*\*)", "", line).strip()
             story.append(Paragraph(clean_line, question_style))
 
-        # ✅ STAR Keywords (bold only keyword, rest normal)
+        # ✅ STAR Keywords (bold only keyword)
         elif re.search(r"\*\*Situation:|\*\*Task:|\*\*Action:|\*\*Result:", line):
             clean_line = re.sub(r"\*", "", line)
             parts = clean_line.split(":", 1)
@@ -666,7 +679,6 @@ def export_interview_qa(content):
         if not line:
             continue
 
-        # ✅ Section Headings
         if re.match(r"^(##|\*\*)\s*(Behavioral Questions|Technical Questions)", line, re.IGNORECASE):
             clean_line = re.sub(r"(##|\*\*)", "", line, flags=re.IGNORECASE).strip(": *")
             p = word_doc.add_paragraph()
@@ -674,7 +686,6 @@ def export_interview_qa(content):
             run.bold = True
             run.font.size = Pt(16)
 
-        # ✅ Questions
         elif line.startswith("###") or re.match(r"^\*\*\d+\.", line):
             clean_line = re.sub(r"(###|\*\*)", "", line).strip()
             p = word_doc.add_paragraph()
@@ -682,7 +693,6 @@ def export_interview_qa(content):
             run.bold = True
             run.font.size = Pt(13)
 
-        # ✅ STAR Keywords
         elif re.search(r"\*\*Situation:|\*\*Task:|\*\*Action:|\*\*Result:", line):
             clean_line = re.sub(r"\*", "", line)
             parts = clean_line.split(":", 1)
@@ -694,7 +704,6 @@ def export_interview_qa(content):
                 p.add_run(parts[1].strip())
             else:
                 p.add_run(clean_line)
-
         else:
             word_doc.add_paragraph(re.sub(r"\*", "", line))
 
