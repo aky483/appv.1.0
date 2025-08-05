@@ -584,17 +584,8 @@ def show_cv_generation_page():
                 st.markdown(qa_content)
 
                 # ✅ Export Options
-                pdf_buffer, docx_buffer = export_interview_qa(qa_content)
+                docx_buffer = export_interview_qa(qa_content)
 
-                col1, col2 = st.columns(2)
-                with col1:
-                    st.download_button(
-                        "📥 Download PDF",
-                        data=pdf_buffer,
-                        file_name="interview_QA.pdf",
-                        mime="application/pdf"
-                    )
-                with col2:
                     st.download_button(
                         "📥 Download DOCX",
                         data=docx_buffer,
@@ -956,7 +947,7 @@ def show_interview_qa_page():
                 st.markdown(qa_content)
 
                 # ✅ Export Options
-                pdf_buffer, docx_buffer = export_interview_qa(qa_content)
+                docx_buffer = export_interview_qa(qa_content)
 
                 col1, col2 = st.columns(2)
                 with col1:
