@@ -586,12 +586,13 @@ def show_cv_generation_page():
                 # ✅ Export Options
                 docx_buffer = export_interview_qa(qa_content)
 
-                    st.download_button(
-                        "📥 Download DOCX",
-                        data=docx_buffer,
-                        file_name="interview_QA.docx",
-                        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                    )
+                st.download_button(
+                "📥 Download DOCX",
+                data=docx_buffer,
+                file_name="interview_QA.docx",
+                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                )
+
 
                 # Deduct credits
                 deduct_user_credits(st.session_state.user_data['email'], 1)
