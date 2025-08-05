@@ -501,86 +501,80 @@ def enhance_action_verbs(content, intensity="High"):
 def generate_interview_qa(resume_text, job_description):
     """Generate interview Q&A using Gemini AI"""
     prompt = f"""
-    You are an expert career coach and interviewer specializing in the STAR method (Situation, Task, Action, Result).
-    
-    TASK:
-    Generate **exactly 20 interview questions and answers** for the candidate based on their resume and the job description.
-    
-    STRUCTURE REQUIREMENTS:
-    ✅ 8 Behavioral Questions focusing on:
-       - Company culture fit and motivation
-       - Teamwork and collaboration scenarios  
-       - Problem-solving and conflict resolution
-       - Leadership and initiative examples
-       - Adaptability and learning experiences
-       - Communication and stakeholder management
-       - Time management and prioritization
-       - Achievement and goal-oriented situations
-    
-    ✅ 12 Technical Questions covering:
-       - Core technical skills from resume and JD
-       - Tools, frameworks, and technologies mentioned
-       - System design and architecture scenarios
-       - Problem-solving with specific technologies
-       - Best practices and methodology questions
-       - Advanced concepts relevant to the role
-       - Troubleshooting and debugging scenarios
-       - Performance optimization techniques
-       - Security and compliance considerations
-       - Industry-specific technical challenges
-       - Integration and deployment practices
-       - Code quality and testing approaches
-    
-    FORMAT REQUIREMENTS:
-    Structure each Q&A exactly as follows using STAR method for ALL questions:
-    
-    BEHAVIOURAL QUESTION:
-    Q:
-    A:
-    - **Situation:** [Context and background scenario]
-    - **Task:** [What needed to be accomplished or challenge faced]
-    - **Action:** [First specific step taken]
-    - **Action:** [Second specific step taken]
-    - **Action:** [Third specific step taken]
-    - **Result:** [Quantifiable outcome achieved]
-    - **Result:** [Additional impact or learning gained]
-    
-    TECHNICAL QUESTION:
-    Q:
-    A:
-    - **Situation:** [Technical scenario or project context]
-    - **Task:** [Technical challenge or requirement to address]
-    - **Action:** [Technical approach or solution implemented]
-    - **Action:** [Specific tools/technologies used]
-    - **Action:** [Implementation steps or methodology followed]
-    - **Result:** [Technical outcome or performance improvement]
-    - **Result:** [Business impact or lessons learned]
-    
-    ANSWER QUALITY STANDARDS:
-    ✅ Each answer MUST have **exactly 7 points** following STAR method structure
-    ✅ ALL answers (behavioral AND technical) use STAR format consistently
-    ✅ STAR breakdown: 1 Situation + 1 Task + 3 Actions + 2 Results = 7 points
-    ✅ Include quantifiable metrics and results where possible
-    ✅ Use ATS keywords naturally throughout answers
-    ✅ Each point should be 15-25 words for optimal comprehension
-    ✅ No repetition of questions, concepts, or examples
-    ✅ Draw specific examples from candidate's actual experience
-    
-    CUSTOMIZATION REQUIREMENTS:
-    ✅ Align all questions with candidate's experience level and role requirements
-    ✅ Incorporate specific tools, technologies, and frameworks from JD
-    ✅ Reference actual projects, companies, or achievements from resume
-    ✅ Match technical complexity to seniority level
-    ✅ Include industry-specific scenarios and challenges
-    ✅ Cover both current skills and growth potential areas
-    
-    RESUME CONTENT:
+    You are an expert career coach and interview specialist with deep knowledge of the STAR method (Situation, Task, Action, Result).
+
+    ## OBJECTIVE:
+    Generate **exactly 20 interview questions and answers** tailored to the candidate's resume and job description using the STAR methodology.
+
+
+    ## QUESTION BREAKDOWN:
+    - **8 Behavioral Questions**
+        - Focus on: leadership, teamwork, conflict resolution, problem-solving, adaptability, failure/learning, achievement, cultural fit
+        - Use starters like:
+        - "Tell me about a time when..."
+        - "Describe a situation where..."
+    - **12 Technical Questions**
+        - Role-specific and scenario-based
+        - Include advanced problem-solving situations
+        - Cover tools, frameworks, and methodologies from the job description and resume
+        
+
+    ## ANSWER FORMAT (STAR METHOD):
+    Each answer must follow the STAR structure in **paragraph format** with headings:
+
+    **Behavioral Questions:**
+    - **Situation:** Brief context and background
+    - **Task:** Specific challenge or responsibility
+    - **Action:** Key steps you took
+    - **Result:** Positive outcome with measurable impact (include metrics where possible)
+
+    **Technical Questions:**
+    - **Situation:** Technical context or project background
+    - **Task:** Technical challenge or requirement
+    - **Action:** Detailed technical approach, tools, and methods implemented
+    - **Result:** Technical outcomes, improvements, or measurable impact
+
+    ✅ **Response Length:** Each answer should be concise yet complete (approx. **200-250 words**).
+
+
+    ## STRICT OUTPUT STRUCTURE:
+
+
+    ## QUALITY REQUIREMENTS:
+    ✅ Behavioral Questions:
+    - Test competencies in leadership, teamwork, adaptability, problem-solving, cultural fit
+    - Align with target role and industry context
+
+    ✅ Technical Questions:
+    - Role-specific, based on job description and candidate's resume
+    - Include **ATS keywords** naturally
+    - Require practical, scenario-based solutions
+    - Cover tools, frameworks, and methodologies relevant to the role
+
+    ✅ All Answers:
+    - MUST follow STAR format (Situation, Task, Action, Result)
+    - Include **specific metrics, KPIs, or measurable results**
+    - Demonstrate **progressive responsibility, growth, and alignment with role requirements**
+    - Show **authenticity and professionalism**
+    - Avoid repetition across responses
+
+    ## ROLE-LEVEL ADAPTATION:
+    - If role is **Entry-Level**: Use simpler technical challenges and emphasize learning and adaptability
+    - If role is **Mid-Level**: Include mix of technical depth and soft skills like collaboration and initiative
+    - If role is **Senior/Lead**: Focus on leadership, architecture-level decisions, influencing stakeholders, and scaling solutions
+
+    ## INPUTS:
+    **Resume:**
     {resume_text}
-    
-    JOB DESCRIPTION:
+
+    **Job Description:**
     {job_description}
-    
-    Generate exactly 20 questions (Q1-Q20) with comprehensive answers following the above structure.
+
+    ## ADDITIONAL INSTRUCTIONS:
+    - Prioritize critical skills and achievements from the resume
+    - Ensure technical depth matches role level
+    - Use industry-specific terminology and best practices
+    - Keep answers **authentic, achievement-oriented, and concise**
     """
     try:
         if st_session.get("ai_model") == "openai":
@@ -613,30 +607,97 @@ def generate_interview_qa(resume_text, job_description):
 
 
 def export_interview_qa(content):
-    """Export Q&A content as PDF and DOCX"""
+    """Export Q&A with bold section headings, bold questions, and STAR keywords, compatible with GPT & Gemini."""
     from io import BytesIO
     from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
-    from reportlab.lib.styles import getSampleStyleSheet
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.lib.enums import TA_LEFT
+    from reportlab.lib import colors
     from docx import Document
+    from docx.shared import Pt
 
-    # PDF Export
+    # PDF Styles
+    styles = getSampleStyleSheet()
+    heading_style = ParagraphStyle('HeadingStyle', fontSize=16, leading=20, textColor=colors.darkblue, spaceAfter=12, fontName='Helvetica-Bold')
+    question_style = ParagraphStyle('QuestionStyle', fontSize=13, leading=15, spaceAfter=8, fontName='Helvetica-Bold')
+    normal_style = ParagraphStyle('NormalStyle', fontSize=11, leading=14, spaceAfter=6)
+
     pdf_buffer = BytesIO()
     doc = SimpleDocTemplate(pdf_buffer)
-    styles = getSampleStyleSheet()
     story = []
-    for line in content.split('\n'):
-        if line.strip():
-            story.append(Paragraph(line.strip(), styles['Normal']))
-            story.append(Spacer(1, 12))
+
+    lines = content.split('\n')
+    for raw_line in lines:
+        line = raw_line.strip()
+        if not line:
+            continue
+
+        # ✅ Section Headings (GPT: ## ... | Gemini: **Behavioral Questions**)
+        if re.match(r"^(##|\*\*)\s*(Behavioral Questions|Technical Questions)", line, re.IGNORECASE):
+            clean_line = re.sub(r"(##|\*\*)", "", line, flags=re.IGNORECASE).strip(": *")
+            story.append(Paragraph(clean_line, heading_style))
+
+        # ✅ Questions (### or **digit. question**)
+        elif line.startswith("###") or re.match(r"^\*\*\d+\.", line):
+            clean_line = re.sub(r"(###|\*\*)", "", line).strip()
+            story.append(Paragraph(clean_line, question_style))
+
+        # ✅ STAR Keywords (bold only keyword, rest normal)
+        elif re.search(r"\*\*Situation:|\*\*Task:|\*\*Action:|\*\*Result:", line):
+            clean_line = re.sub(r"\*", "", line)
+            parts = clean_line.split(":", 1)
+            formatted_line = f"<b>{parts[0]}:</b>{parts[1]}" if len(parts) == 2 else clean_line
+            story.append(Paragraph(formatted_line, normal_style))
+
+        else:
+            story.append(Paragraph(re.sub(r"\*", "", line), normal_style))
+
+        story.append(Spacer(1, 6))
+
     doc.build(story)
     pdf_buffer.seek(0)
 
-    # DOCX Export
+    # ✅ DOCX Export
     docx_buffer = BytesIO()
     word_doc = Document()
-    for line in content.split('\n'):
-        if line.strip():
-            word_doc.add_paragraph(line.strip())
+
+    for raw_line in lines:
+        line = raw_line.strip()
+        if not line:
+            continue
+
+        # ✅ Section Headings
+        if re.match(r"^(##|\*\*)\s*(Behavioral Questions|Technical Questions)", line, re.IGNORECASE):
+            clean_line = re.sub(r"(##|\*\*)", "", line, flags=re.IGNORECASE).strip(": *")
+            p = word_doc.add_paragraph()
+            run = p.add_run(clean_line)
+            run.bold = True
+            run.font.size = Pt(16)
+
+        # ✅ Questions
+        elif line.startswith("###") or re.match(r"^\*\*\d+\.", line):
+            clean_line = re.sub(r"(###|\*\*)", "", line).strip()
+            p = word_doc.add_paragraph()
+            run = p.add_run(clean_line)
+            run.bold = True
+            run.font.size = Pt(13)
+
+        # ✅ STAR Keywords
+        elif re.search(r"\*\*Situation:|\*\*Task:|\*\*Action:|\*\*Result:", line):
+            clean_line = re.sub(r"\*", "", line)
+            parts = clean_line.split(":", 1)
+            p = word_doc.add_paragraph()
+            if len(parts) == 2:
+                run_bold = p.add_run(parts[0] + ":")
+                run_bold.bold = True
+                run_bold.font.size = Pt(11)
+                p.add_run(parts[1].strip())
+            else:
+                p.add_run(clean_line)
+
+        else:
+            word_doc.add_paragraph(re.sub(r"\*", "", line))
+
     word_doc.save(docx_buffer)
     docx_buffer.seek(0)
 
