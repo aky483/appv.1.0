@@ -618,8 +618,8 @@ def export_interview_qa(content):
 
     # PDF Styles
     styles = getSampleStyleSheet()
-    heading_style = ParagraphStyle('HeadingStyle', fontSize=16, leading=20, textColor=colors.darkblue, spaceAfter=12, fontName='Helvetica-Bold')
-    question_style = ParagraphStyle('QuestionStyle', fontSize=13, leading=15, spaceAfter=8, fontName='Helvetica-Bold')
+    heading_style = ParagraphStyle('HeadingStyle', fontSize=16, leading=20, textColor=colors.darkblue, spaceAfter=12, fontName='Calibri')
+    question_style = ParagraphStyle('QuestionStyle', fontSize=13, leading=15, spaceAfter=8, fontName='Calibri')
     normal_style = ParagraphStyle('NormalStyle', fontSize=11, leading=14, spaceAfter=6)
 
     pdf_buffer = BytesIO()
