@@ -608,34 +608,17 @@ def generate_interview_qa(resume_text, job_description):
 
 
 
+import re
+from io import BytesIO
+from docx import Document
+from docx.shared import Pt
+
 def export_interview_qa(content):
-    """Export Q&A with bold section headings, bold questions, and STAR keywords, compatible with GPT & Gemini."""
-    from io import BytesIO
-    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak
-    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-    from reportlab.lib.enums import TA_LEFT
-    from reportlab.lib import colors
-    from docx import Document
-    from docx.shared import Pt
-
-    # ✅ PDF Styles (Streamlit-safe: use Helvetica)
-    styles = getSampleStyleSheet()
-    heading_style = ParagraphStyle(
-        'HeadingStyle', fontSize=16, leading=20, textColor=colors.darkblue,
-        spaceAfter=14, fontName='Helvetica-Bold'
-    )
-    question_style = ParagraphStyle(
-        'QuestionStyle', fontSize=13, leading=15, spaceAfter=10,
-        fontName='Helvetica-Bold'
-    )
-    normal_style = ParagraphStyle(
-        'NormalStyle', fontSize=11, leading=14, spaceAfter=6,
-        fontName='Helvetica'
-    )
-
-    pdf_buffer = BytesIO()
-    doc = SimpleDocTemplate(pdf_buffer)
-    story = []
+    """Export Q&A as DOCX with bold section headings, bold questions, and STAR keywords (GPT & Gemini compatible)."""
+    
+    # Prepare DOCX buffer
+    docx_buffer = BytesIO()
+    word_doc = Document()
 
     lines = content.split('\n')
     for raw_line in lines:
@@ -643,42 +626,7 @@ def export_interview_qa(content):
         if not line:
             continue
 
-        # ✅ Section Headings (GPT or Gemini)
-        if re.match(r"^(##|\*\*)\s*(Behavioral Questions|Technical Questions)", line, re.IGNORECASE):
-            clean_line = re.sub(r"(##|\*\*)", "", line, flags=re.IGNORECASE).strip(": *")
-            if "Technical" in clean_line:
-                story.append(PageBreak())  # Page break before technical section
-            story.append(Paragraph(clean_line, heading_style))
-
-        # ✅ Questions
-        elif line.startswith("###") or re.match(r"^\*\*\d+\.", line):
-            clean_line = re.sub(r"(###|\*\*)", "", line).strip()
-            story.append(Paragraph(clean_line, question_style))
-
-        # ✅ STAR Keywords (bold only keyword)
-        elif re.search(r"\*\*Situation:|\*\*Task:|\*\*Action:|\*\*Result:", line):
-            clean_line = re.sub(r"\*", "", line)
-            parts = clean_line.split(":", 1)
-            formatted_line = f"<b>{parts[0]}:</b>{parts[1]}" if len(parts) == 2 else clean_line
-            story.append(Paragraph(formatted_line, normal_style))
-
-        else:
-            story.append(Paragraph(re.sub(r"\*", "", line), normal_style))
-
-        story.append(Spacer(1, 6))
-
-    doc.build(story)
-    pdf_buffer.seek(0)
-
-    # ✅ DOCX Export
-    docx_buffer = BytesIO()
-    word_doc = Document()
-
-    for raw_line in lines:
-        line = raw_line.strip()
-        if not line:
-            continue
-
+        # ✅ Section Headings (e.g., ## Behavioral Questions or **Behavioral Questions**)
         if re.match(r"^(##|\*\*)\s*(Behavioral Questions|Technical Questions)", line, re.IGNORECASE):
             clean_line = re.sub(r"(##|\*\*)", "", line, flags=re.IGNORECASE).strip(": *")
             p = word_doc.add_paragraph()
@@ -686,6 +634,7 @@ def export_interview_qa(content):
             run.bold = True
             run.font.size = Pt(16)
 
+        # ✅ Questions (### or **1. Question text**)
         elif line.startswith("###") or re.match(r"^\*\*\d+\.", line):
             clean_line = re.sub(r"(###|\*\*)", "", line).strip()
             p = word_doc.add_paragraph()
@@ -693,6 +642,7 @@ def export_interview_qa(content):
             run.bold = True
             run.font.size = Pt(13)
 
+        # ✅ STAR Keywords (bold only the keyword, keep the rest normal)
         elif re.search(r"\*\*Situation:|\*\*Task:|\*\*Action:|\*\*Result:", line):
             clean_line = re.sub(r"\*", "", line)
             parts = clean_line.split(":", 1)
@@ -704,10 +654,13 @@ def export_interview_qa(content):
                 p.add_run(parts[1].strip())
             else:
                 p.add_run(clean_line)
+
+        # ✅ Normal text
         else:
             word_doc.add_paragraph(re.sub(r"\*", "", line))
 
+    # Save DOCX to buffer
     word_doc.save(docx_buffer)
     docx_buffer.seek(0)
 
-    return pdf_buffer, docx_buffer
+    return docx_buffer
